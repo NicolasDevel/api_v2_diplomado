@@ -4,9 +4,13 @@ from products.views.product_view import list_products, create_product, detail_pr
 ### Importar viewset
 from rest_framework.routers import DefaultRouter
 from products.views.category_view import CategoryViewSet
+from products.views.tag_view import TagViewSet
 
 router = DefaultRouter()
 router.register(r'categories', CategoryViewSet, basename='category')
+router.register(r'tags', TagViewSet, basename='tag')
+#router_tag = DefaultRouter()
+#router_tag.register(r'tags', TagViewSet, basename='tag')
 
 
 urlpatterns = [
