@@ -1,6 +1,8 @@
 from decimal import Decimal
 from rest_framework import serializers
 from products.models.product import Product
+from products.models.category import Category
+from .category_serializer import CategorySerializer
 
 
 def validate_unique_name(value):
@@ -13,6 +15,14 @@ def validate_unique_name(value):
 class ProductSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(max_length=100, validators=[validate_unique_name])
+    
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset = Category.objects.all(),
+        allow_null = True,
+        required = True,
+        source = 'category'
+    )
+    
 
     offer_price = serializers.SerializerMethodField()
     def get_offer_price(self, instace):
