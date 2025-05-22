@@ -1,5 +1,6 @@
 from django.db import models
 from .category import Category
+from .tag import Tag 
 
 class Product(models.Model):
 
@@ -11,6 +12,12 @@ class Product(models.Model):
         on_delete=models.CASCADE, 
         null=True
         )
+    #Agregar una relacion de muchos a muchos con la tabla tags
+    tags = models.ManyToManyField(
+        Tag,
+        blank = True,
+        related_name = 'products'
+    )
     
 
     def __str__(self):
