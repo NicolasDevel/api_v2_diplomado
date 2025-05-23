@@ -9,11 +9,11 @@ from rest_framework.permissions import AllowAny
 @permission_classes([AllowAny])
 def login_view(request):
     #Lo primero realizar es obtener el usuario y contraseña que han sido enviados
-    username_from_client = request.data.get('username')
+    email_from_client = request.data.get('email')
     password_from_client = request.data.get('password')
 
     #Validamos que el usuario exista en la bd
-    user = authenticate(username = username_from_client, password = password_from_client)
+    user = authenticate(email = email_from_client, password = password_from_client)
 
     #Generamos el token si la autenticacion fue un exito
     if user: 
