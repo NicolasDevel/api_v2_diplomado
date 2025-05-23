@@ -1,12 +1,15 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from products.models.product import Product
 from products.serializers.product_serializer import ProductSerializer
 
+from rest_framework.permissions import IsAuthenticated
+
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def list_products(request):
     ''' Listar productos '''
     list_products = Product.objects.all() # select * from productos
@@ -14,6 +17,7 @@ def list_products(request):
     return Response(serializer.data, status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_product(request):
     ''' Crear producto '''
     serializer = ProductSerializer(data = request.data)
@@ -24,6 +28,7 @@ def create_product(request):
         return Response(serializer.errors, status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def detail_product(request, product_id):
     product = get_object_or_404(Product, id = product_id) # Busca
 
