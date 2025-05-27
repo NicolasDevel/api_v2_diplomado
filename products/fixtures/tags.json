@@ -1,0 +1,23 @@
+[
+    {
+        "model" : "products.Tag",
+        "pk" : 1,
+        "fields" : {
+            "name" : "Tecnología"
+        }
+    },
+    {
+        "model" : "products.Tag",
+        "pk" : 2,
+        "fields" : {
+            "name" : "Hogar"
+        }
+    },
+    {
+        "model" : "products.Tag",
+        "pk" : 3,
+        "fields" : {
+            "name" : "Exteriores"
+        }
+    }
+]
