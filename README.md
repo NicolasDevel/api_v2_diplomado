@@ -52,3 +52,7 @@ touch .env
 ```
 
 
+## Modifica el fixture de la aplicación de users
+```bash
+python manage.py loaddata users 
+```
