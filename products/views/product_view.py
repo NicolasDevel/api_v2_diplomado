@@ -8,6 +8,13 @@ from products.serializers.product_serializer import ProductSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 
+#Para crear archivos
+from django.http import HttpResponse, JsonResponse
+from openpyxl import Workbook
+from io import BytesIO
+from datetime import datetime
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -94,3 +101,57 @@ def delete_product(request, product_id):
     product.delete()
     return Response(status = status.HTTP_204_NO_CONTENT)
 
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def export_products_to_excel(request):
+    #Crear el libro
+    instance_workbook = Workbook()
+    work_sheet = instance_workbook.active
+    work_sheet.title = 'Productos'
+
+    headers = [
+        'ID',
+        'Nombre',
+        'Descripción',
+        'Precio',
+        'Categoría',
+        'Tags',
+        'Usuario',
+    ]
+    work_sheet.append(headers)
+
+    products = Product.objects.select_related('category', 'user').prefetch_related('tags').all()
+
+    for product in products:
+        tags = ', '.join([tag.name for tag in product.tags.all()])
+
+        work_sheet.append([
+            product.id,
+            product.name,
+            product.description,
+            float(product.price),
+            product.category.name,
+            tags,
+            product.user.first_name if product.user else ""
+        ])
+    #Crear respuesta
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+    date = datetime.now().strftime('%Y-%m-%d')
+    name_file = f"productos_{date}.xlsx"
+    
+    response['Content-Disposition'] = f'attachment; filename={name_file}'
+
+    #Guardar y enviar
+    buffer = BytesIO()
+    instance_workbook.save(buffer)
+
+    response.write(buffer.getvalue())
+
+    return response
+
+    

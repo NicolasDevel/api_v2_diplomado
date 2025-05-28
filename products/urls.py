@@ -1,5 +1,5 @@
 from django.urls import path, include
-from products.views.product_view import list_products, create_product, detail_product
+from products.views.product_view import list_products, create_product, detail_product, export_products_to_excel
 
 ### Importar viewset
 from rest_framework.routers import DefaultRouter
@@ -18,7 +18,8 @@ urlpatterns = [
 
     path('products/', list_products, name='lista_de_productos'),
     path('products/create/', create_product, name='crear_producto'),
-    path('products/<int:product_id>', detail_product, name='detalles_del_producto' )
+    path('products/<int:product_id>', detail_product, name='detalles_del_producto' ),
+    path('products/export/excel', export_products_to_excel, name='exportar_excel')
 ]
 '''
 GET /categories/ -> listar todas las categorias
