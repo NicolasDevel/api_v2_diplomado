@@ -6,6 +6,7 @@ from products.models.product import Product
 from products.serializers.product_serializer import ProductSerializer
 
 from rest_framework.permissions import IsAuthenticated
+from django.core.mail import send_mail
 
 
 @api_view(['GET'])
@@ -26,6 +27,19 @@ def create_product(request):
         )
     if serializer.is_valid():
         serializer.save()
+
+        subject = 'Producto creado'
+        message = 'Has creado un producto mediante la aplicación'
+        recipient_list = [request.user.email]
+
+        send_mail(
+            subject,
+            message,
+            None,
+            recipient_list,
+            fail_silently=True #Va lanzar una excepcion (raise) si el envio falla
+        )
+
         return Response(serializer.data, status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status.HTTP_422_UNPROCESSABLE_ENTITY)
