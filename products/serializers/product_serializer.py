@@ -44,6 +44,11 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only = True
     )
 
+    #Agregar usuario
+    user = serializers.HiddenField(
+        default = serializers.CurrentUserDefault()
+    )
+
     offer_price = serializers.SerializerMethodField()
     def get_offer_price(self, instace):
         discount = Decimal('0.85')

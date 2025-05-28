@@ -1,6 +1,7 @@
 from django.db import models
 from .category import Category
 from .tag import Tag 
+from users.models import User #Importo el modelo de user
 
 class Product(models.Model):
 
@@ -17,6 +18,13 @@ class Product(models.Model):
         Tag,
         blank = True,
         related_name = 'products'
+    )
+
+    #Agregar relación con usuarios
+    user = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        null = True 
     )
     
 

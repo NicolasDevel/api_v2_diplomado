@@ -20,7 +20,10 @@ def list_products(request):
 @permission_classes([IsAuthenticated])
 def create_product(request):
     ''' Crear producto '''
-    serializer = ProductSerializer(data = request.data)
+    serializer = ProductSerializer(
+        data = request.data, 
+        context = {'request' : request}
+        )
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
@@ -52,6 +55,7 @@ def detail_product(request, product_id):
 
 
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def update_product(request, product_id):
     product = get_object_or_404(Product, id = product_id) # Busca
     ''' otra logíca '''
@@ -63,12 +67,14 @@ def update_product(request, product_id):
         return Response(serializer.errors, status.HTTP_422_UNPROCESSABLE_ENTITY)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_product(request, product_id):
     product = get_object_or_404(Product, id = product_id) # Busca
     serializer = ProductSerializer(product)
     return Response(serializer.data, status.HTTP_200_OK)
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id = product_id) # Busca
     product.delete()
