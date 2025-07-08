@@ -21,10 +21,10 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #Generar la ruta global del archivo .env
-dot_env_path = os.path.join(BASE_DIR, '.env') #/Users/nicolassabogaltorres/Documents/review/mi_api/.env
+#dot_env_path = os.path.join(BASE_DIR, '.env') #/Users/nicolassabogaltorres/Documents/review/mi_api/.env
 
 #Cargue las variables
-load_dotenv(dot_env_path)
+#load_dotenv(dot_env_path)
 
 
 # Quick-start development settings - unsuitable for production
