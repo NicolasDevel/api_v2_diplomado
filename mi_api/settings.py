@@ -36,7 +36,9 @@ print(os.getenv('DEBUG'), os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'api-v2-diplomado.onrender.com'
+]
 
 #Email variables
 EMAIL_BACKEND=os.getenv('EMAIL_BACKEND')
